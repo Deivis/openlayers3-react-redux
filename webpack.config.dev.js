@@ -1,34 +1,36 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   devtool: 'source-map',
   entry: [
-    'webpack-hot-middleware/client',
-    './public/app'
+    './public/app',
+    'webpack-hot-middleware/client'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    path: __dirname,
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin("bundle.css",{
+            allChunks: true
+        })
   ],
   module: {
     loaders: [
     // js
     {
       test: /\.js$/,
-      loaders: ['babel','eslint'],
+      loaders: ['babel'],
       include: path.join(__dirname, 'public')
     },
     // CSS
     {
-      test: /\.styl$/,
-      include: path.join(__dirname, 'public'),
-      loader: 'style-loader!css-loader!stylus-loader'
+       test: /\.css$/,
+       include: path.join(__dirname, 'public/styles'),
+       loader: ExtractTextPlugin.extract("style-loader", "css-loader")
     }
     ]
   }
