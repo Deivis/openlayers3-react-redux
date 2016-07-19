@@ -23,29 +23,32 @@ const setup = () =>{
 
   const geoJSON = cjson.load(path.join(rootDir, '/public/data/OSGEoLabs.json'));
 
-  initialState.places = geoJSON.features.map(function(feature) {
+  const places =  geoJSON.features.map(function(feature) {
 
     return feature.properties;
   })
 
+  initialState.places = [places[0]];
+
   return {
     initialState,
-    geoJSON
+    geoJSON,
+    places
   };
 };
 
 describe('Map reducer: ', () => {
-  const { initialState, geoJSON } = setup();
+  const { initialState, geoJSON, places } = setup();
 
-  it('Should change the visibilite of the places', () =>{
-
-  });
+  //it('Should change the visibilite of the places', () =>{
+  // I don't now how i will do this
+  //});
 
   it('Should change the selected place', () =>{
     const expectedState = {
       map: null,
-      selected:geoJSON.features[0],
-      places: geoJSON.features
+      selected: places[0],
+      places: [places[0]]
     };
 
     const action = {
@@ -56,7 +59,6 @@ describe('Map reducer: ', () => {
     expect(map(initialState, action)).toNotEqual(initialState);
 
     expect(map(initialState, action)).toEqual(expectedState);
-
   });
 
 });
