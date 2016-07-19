@@ -1,6 +1,6 @@
-/** this file will start all things */
+import React from 'react';
+
+import {render} from 'react-dom';
 
 // Import the css files
 import css from './styles/main.css';
-
-console.log('OK');
