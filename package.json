@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "set BABEL_ENV=development && node server.js",
-    "test": "set BABEL_ENV=test && mocha tests/**/*.spec.js --compilers js:babel-core/register",
+    "test": "set BABEL_ENV=test && mocha test/**/*.spec.js --compilers js:babel-core/register",
     "test:lint": "eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache"
   },
   "version": "0.0.0"

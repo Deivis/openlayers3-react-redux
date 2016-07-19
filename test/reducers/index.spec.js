@@ -23,9 +23,4 @@ describe('combiner reducer', () => {
 		expect(combinedReducers).toBeAn('function');
 	});
 
-  it('shoud the combination of all reducer be a function', () => {
-
-		expect(combinedReducers).toBeEqual(roorReducer);
-	});
-
 });
