@@ -8,9 +8,13 @@ import {browserHistory} from 'react-router';
 import rootReducer from './reducers/index';
 
 //Create an object for the default data
-const defaultState = {};
+const defaultState = {
+  map: null, // Ol map reference
+  selected: {},
+  places: []
+};
 
-//Extension which provides a connection whith the redux chrome dev tools'
+//Extension which provides a connection whith the redux chrome dev tools
 const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
 
 const store = createStore(rootReducer, defaultState, ,devTools);
