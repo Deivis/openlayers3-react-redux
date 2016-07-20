@@ -1,6 +1,14 @@
 import { SELECT_PLACE, CHANGE_PLACES_VISIBILITY } from '../../public/constants';
 
-const mapa = (state = {}, action) => {
+const map = (state = {
+  selected: {},
+  places: []
+}, action) => {
+
+  if(!action){
+
+    return state;
+  }
 
   switch (action.type) {
     case SELECT_PLACE:
@@ -17,4 +25,4 @@ const mapa = (state = {}, action) => {
 
 };
 
-export default mapa;
+export default map;

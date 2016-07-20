@@ -2,8 +2,6 @@ import expect  from 'expect';
 
 import { combineReducers } from 'redux';
 
-import { routerReducer } from 'react-router-redux';
-
 import map from '../../public/reducers/map';
 
 import menu from '../../public/reducers/menu';
@@ -11,7 +9,7 @@ import menu from '../../public/reducers/menu';
 import rootReducer from '../../public/reducers/index';
 
 describe('Combiner reducer: ', () => {
-  const combinedReducers = combineReducers({map, menu, routing: routerReducer});
+  const combinedReducers = combineReducers({map, menu});
 
 	it('Should the combination of all reducer return a new reducer', () => {
 

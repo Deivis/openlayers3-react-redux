@@ -1,25 +1,17 @@
 import {createStore } from 'redux';
 
-import { syncHistoryWithStore} from 'react-router-redux';
-
-import {browserHistory} from 'react-router';
-
 //Import the root reducer
 import rootReducer from './reducers/index';
 
 //Create an object for the default data
-const defaultState = {
-  map: null, // Ol map reference
-  selected: {},
-  places: []
-};
+const defaultState = {};
 
 //Extension which provides a connection whith the redux chrome dev tools
 const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
 
-const store = createStore(rootReducer, defaultState, ,devTools);
+const store = createStore(rootReducer, defaultState, devTools);
 
-export const history = syncHistoryWithStore(browserHistory,store);
+console.log(store.getState());
 
 //this is a functionality of webpack and its modules
 if(module.hot){

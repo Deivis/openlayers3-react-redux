@@ -1,4 +1,12 @@
-const menu = (state = {}, action) => {
+const menu = (state = {
+  selected: {},
+  places: []
+}, action) => {
+
+  if(!action){
+
+    return state;
+  }
 
   switch (action.type) {
 
