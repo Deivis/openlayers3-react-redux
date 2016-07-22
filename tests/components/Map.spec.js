@@ -1,5 +1,3 @@
-import expect  from 'expect';
-
 import React from 'react';
 
 import TestUtils from 'react-addons-test-utils';
@@ -8,9 +6,9 @@ import { createStore } from 'redux';
 
 import { Provider } from 'react-redux';
 
-import Map from '../../public/components/Map';
-
 import rootReducer from '../../public/reducers/index';
+
+import Map from '../../public/components/Map';
 
 const setup = () =>{
   const initialState = {
@@ -42,7 +40,7 @@ describe('Map component: ', () => {
 
   it('Should render correctly a div in Map component', () => {
 
-    expect(component).toExist();
+    expect(component).toBeDefined();
 
     expect(component.type).toEqual('div');
 	});

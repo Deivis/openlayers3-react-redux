@@ -1,9 +1,3 @@
-import expect  from 'expect';
-
-import jsdomify from 'jsdomify';
-
-import cjson from 'cjson';
-
 import path from 'path';
 
 import React from 'react';
@@ -21,33 +15,37 @@ import Main from '../../public/components/Main';
 import rootReducer from '../../public/reducers/index';
 
 const setup = () => {
-  const initialState = {
-    map: {
-      selected: {},
-      places: []
-    }
-  };
-
-  jsdomify.create();
 
   const rootDir = process.cwd();
 
-  const geoJSON = cjson.load(path.join(rootDir, '/public/data/OSGEoLabs.json'));
+  const places = [{
+                    properties:{
+                      name: "Lab for Spatial Informatics",
+                      time: "2011-08-22"
+                    },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [ 78.3503, 17.4454 ]
+                    }
+                  }];
 
-  const places =  geoJSON.features.map(function(feature) {
-
-    return feature.properties;
-  });
-
-  initialState.places = [places[0]];
+  const initialState = {
+    map: {
+      selected: {},
+      places: places
+    }
+  };
 
   const store = createStore(rootReducer, initialState);
+
 	const props = store;
 
   let renderer = TestUtils.createRenderer();
+
 	renderer.render(<Provider store={store}>
 									  <App />
 									</Provider>);
+
   let component = renderer.getRenderOutput();
 
   return {
@@ -62,7 +60,7 @@ describe('App connector component: ', () => {
 
   it('Should render correctly an App component', () => {
 
-		expect(component).toExist();
+		expect(component).toBeDefined();
 		expect(component.type.displayName).toEqual('Connect(Main)');
 	});
 

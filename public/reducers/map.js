@@ -1,4 +1,4 @@
-import { SELECT_PLACE, CHANGE_PLACES_VISIBILITY } from '../../public/constants';
+import {SELECT_PLACE} from '../constants';
 
 const map = (state = {
   selected: {},
@@ -8,16 +8,16 @@ const map = (state = {
   if(!action){
 
     return state;
-  }
+  };
 
   switch (action.type) {
-    case SELECT_PLACE:
+    case 'SELECT_PLACE':
 
       return Object.assign({},
         state,
         { selected: state.places[action.featureIndex] }
       );
-
+            
     default:
 
       return state;
