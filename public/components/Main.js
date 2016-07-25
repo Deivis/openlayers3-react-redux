@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import Map from './Map';
 
+import Menu from './Menu';
+
 class Main extends Component {
 
 	componentDidMount() {
@@ -13,9 +15,14 @@ class Main extends Component {
   }
 
 	render(){
+		const props = this.props;
+
+		const { places, selectedIndex, selectPlace} = props;
+
 		return(
 			<div>
-				<Map></Map>
+				<Map {...props} />
+				<Menu places={places} selected={selectedIndex} selectPlace={selectPlace} />
 			</div>
 		);
 	}
@@ -23,8 +30,9 @@ class Main extends Component {
 
 Main.propTypes = {
   map: PropTypes.object,
-  selected: PropTypes.object,
-  places: PropTypes.array
+  selectedIndex: PropTypes.number,
+  places: PropTypes.array,
+	selectPlace: PropTypes.func
 };
 
 export default Main;

@@ -1,5 +1,3 @@
-import path from 'path';
-
 import React from 'react';
 
 import TestUtils from 'react-addons-test-utils';
@@ -16,17 +14,9 @@ import rootReducer from '../../public/reducers/index';
 
 const setup = () => {
 
-  const rootDir = process.cwd();
-
   const places = [{
-                    properties:{
-                      name: "Lab for Spatial Informatics",
-                      time: "2011-08-22"
-                    },
-                    geometry: {
-                      type: "Point",
-                      coordinates: [ 78.3503, 17.4454 ]
-                    }
+                    name: "Lab for Spatial Informatics",
+                    time: "2011-08-22"
                   }];
 
   const initialState = {
@@ -56,6 +46,7 @@ const setup = () => {
 }
 
 describe('App connector component: ', () => {
+
   const { component } = setup();
 
   it('Should render correctly an App component', () => {
@@ -65,6 +56,7 @@ describe('App connector component: ', () => {
 	});
 
   it('Should wrap a Main component', () => {
+
 		let MainComponent =  component.type.WrappedComponent;
 
 		expect(MainComponent).toEqual(Main);

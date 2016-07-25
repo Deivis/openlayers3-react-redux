@@ -8,7 +8,7 @@ import * as actionCreators from '../actions/actionCreators';
 
 const mapStateToProps = (state) =>({
   map: state.map,
-  selected: state.selected,
+  selectedIndex: state.selectedIndex,
   places: state.places
 });
 

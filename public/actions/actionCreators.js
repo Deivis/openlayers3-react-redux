@@ -1,4 +1,6 @@
-export const slectPlace = (index) =>({
-  type: 'SELECT_PLACE',
+import * as constants from '../constants';
+
+export const selectPlace = (index) =>({
+  type: constants.SELECT_PLACE,
   index
 });

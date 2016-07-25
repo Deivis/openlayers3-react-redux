@@ -5,7 +5,18 @@ import ol from 'openlayers';
 
 class Map extends Component{
   componentDidMount() {
-    // here the ol3 map will be created
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: [949282, 6002552],
+        zoom: 4
+      })
+    });
   }
 
   shouldComponentUpdate() {
@@ -14,7 +25,7 @@ class Map extends Component{
 
   render(){
     return(
-      <div>MAPA</div>
+      <div id="map">MAPA</div>
     );
   }
 };
