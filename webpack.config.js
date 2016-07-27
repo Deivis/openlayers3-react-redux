@@ -62,7 +62,8 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     root: path.resolve(path.join(__dirname, 'public')),
   },
-  devtool: 'eval-source-map',
+  debug: true,
+  devtool: '#eval-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),

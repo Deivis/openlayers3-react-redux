@@ -6,11 +6,13 @@ import Main from './Main';
 
 import * as actionCreators from '../actions/actionCreators';
 
-const mapStateToProps = (state) =>({
-  map: state.map,
-  selectedIndex: state.selectedIndex,
-  places: state.places
-});
+const mapStateToProps = (state) =>{
+  return {
+    olMap: state.map.olMap || null,
+    selected: state.menu.selected || null,
+    places: state.menu.places || []
+  };
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(actionCreators,dispatch);
 

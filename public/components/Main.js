@@ -6,33 +6,48 @@ import Menu from './Menu';
 
 class Main extends Component {
 
-	componentDidMount() {
-
-  }
-
   shouldComponentUpdate() {
 
+		return true;
   }
 
 	render(){
 		const props = this.props;
 
-		const { places, selectedIndex, selectPlace} = props;
+		const {
+            changeSelectedPlace,
+            olMap,
+            places,
+            selected,
+            updateMapReferenceIfNeeded,
+            updatePlacesList,
+            updatePopupReferenceIfNeeded
+          } = props;
 
 		return(
 			<div>
-				<Map {...props} />
-				<Menu places={places} selected={selectedIndex} selectPlace={selectPlace} />
+				<Map  olMap={olMap}
+              selectPlace={changeSelectedPlace}
+              updateMapReferenceIfNeeded={updateMapReferenceIfNeeded}
+              updatePlacesList={updatePlacesList}
+              updatePopupReferenceIfNeeded={updatePopupReferenceIfNeeded}/>
+
+        <Menu places={places}
+              selected={selected}
+              selectPlace={changeSelectedPlace} />
 			</div>
 		);
 	}
 };
 
 Main.propTypes = {
-  map: PropTypes.object,
-  selectedIndex: PropTypes.number,
-  places: PropTypes.array,
-	selectPlace: PropTypes.func
+  changeSelectedPlace: PropTypes.func.isRequired,
+  olMap: PropTypes.object,
+  places: PropTypes.array.isRequired,
+	selected: PropTypes.object,
+  updateMapReferenceIfNeeded: PropTypes.func.isRequired,
+  updatePlacesList: PropTypes.func.isRequired,
+  updatePopupReferenceIfNeeded: PropTypes.func.isRequired
 };
 
 export default Main;

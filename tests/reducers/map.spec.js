@@ -16,7 +16,7 @@ const setup = () => {
 
   const initialState = {
     map: null, // Ol map reference
-    selected: {},
+    selectedIndex: null,
     places: places
   };
 
@@ -33,10 +33,10 @@ describe('Map reducer: ', () => {
   // I don't now how i will do this
   //});
 
-  it('Should change the selected place', () =>{
+  it('Should change the selected place index ', () =>{
     const expectedState = {
       map: null,
-      selected: places[0],
+      selectedIndex: 0,
       places: places
     };
 

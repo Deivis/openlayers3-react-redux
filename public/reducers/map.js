@@ -1,23 +1,29 @@
-import {SELECT_PLACE} from '../constants';
+import { SELECT_PLACE, UPDATE_MAP_REFERENCE, UPDATE_POPUP_REFERENCE } from '../constants';
 
-const map = (state = {
-  selected: {},
-  places: []
-}, action) => {
+const map = (state = {}, action) => {
 
   if(!action){
 
     return state;
   };
-
+  let out;
   switch (action.type) {
-    case 'SELECT_PLACE':
 
-      return Object.assign({},
-        state,
-        { selected: state.places[action.featureIndex] }
-      );
-            
+    case UPDATE_MAP_REFERENCE:
+      out = Object.assign({},state);
+
+      out.olMap = action.olMap;
+      out.defaultZoom = out.olMap.getView().getZoom();
+
+      return out;
+    case UPDATE_POPUP_REFERENCE:
+      out = Object.assign({},state);
+
+      out.olPopup = action.olPopup;
+
+      out.popupElement = action.popupElement;
+
+      return out;
     default:
 
       return state;

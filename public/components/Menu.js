@@ -12,21 +12,25 @@ class Menu extends Component{
 
   shouldComponentUpdate() {
 
+    return true;
   }
 
-  renderPlace(selectedIndex, place, index){
+  renderPlace(selected, place, index){
+    const className = selected !== null ? (selected.name === place.name ? 'selected' : '') : '';
     return(
-      <li key={index} onClick={ this.props.selectPlace.bind(null, index) }>
-        <label>place.name</label>
+      <li key={index}
+          className={className}
+          onClick={ this.props.selectPlace.bind(null, place) }>
+        <label>{place.name}</label>
       </li>
     );
   }
 
   render(){
-    const { places, selectedIndex} = this.props;
+    const { places, selected} = this.props;
     return(
       <ul id="menu">
-        { places.map(this.renderPlace.bind(this,selectedIndex)) }
+        { places.map(this.renderPlace.bind(this,selected)) }
       </ul>
     );
   }
@@ -34,7 +38,7 @@ class Menu extends Component{
 
 Menu.propTypes = {
   places: PropTypes.array,
-  selectedIndex: PropTypes.number,
+  selected: PropTypes.object,
   selectPlace: PropTypes.func
 };
 
