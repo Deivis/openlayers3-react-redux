@@ -5,13 +5,25 @@ const selectPlace = (place) =>({
   place
 });
 
+/* unselect a place in the map and in the menu,
+* close the place popup and change the selected place to null
+*/
 export const unselectPlace = () =>{
   return (dispatch, getState) => {
-    
+    let state = getState();
+
+    let { olMap, olPopup} = state.map;
+
+    // hide/close the ol popup
+    olPopup.setPosition();
+
+    olMap.selectSingleClick.getFeatures().clear();
+
     return dispatch(selectPlace(null));
   };
 };
 
+// validates if is required to change the selected place
 const shouldChangePlace = (state,place) => {
   if(!state.selected){
     return true;
@@ -19,17 +31,57 @@ const shouldChangePlace = (state,place) => {
   return state.selected.name !== place.name;
 };
 
+// get the name of a place from a feature
 const getPlaceName = (featureProps) => ( featureProps.name.replace(/<(?:.|\n)*?>/g, '') );
 
+// Shows the olPopup in the map with the data from the selected feature
+const showOlPopup = (map, defaultZoom, popup, selectedFeature) =>{
+  let innerPopup = popup.getElement().querySelector('#innerPopup');
+
+  innerPopup.innerHTML = selectedFeature.getProperties().name;
+
+  popup.setPosition(selectedFeature.getGeometry().getFirstCoordinate());
+
+  map.getView().setZoom(defaultZoom || 4);
+}
+
+/*Receives the select feature event from the mapm, dispatch correctly the
+* select place action and shows the olPopup with the selected feature data
+*/
+export const selectFeature = (event) =>{
+
+  return (dispatch, getState) => {
+    let state = getState();
+
+    let selectedFeature = event && event.selected ? event.selected[0]: event;
+
+    let props = selectedFeature.getProperties();
+
+    let { olPopup, olMap, defaultZoom } = state.map;
+
+    let place = {
+      name: getPlaceName(props),
+      time: props.time
+    };
+
+    showOlPopup(olMap, defaultZoom, olPopup, selectedFeature);
+
+    return dispatch(selectPlace(place));
+  };
+};
+
+/* Receives the place which will be selected and based on the place name
+* select a feature on the map and dispatch the select place action
+*/
 export const changeSelectedPlace = (place) => {
 
   return (dispatch, getState) => {
     if(shouldChangePlace(getState(), place)){
       let state = getState();
 
-      let popup = state.map.olPopup;
+          let { olPopup, olMap, defaultZoom } = state.map;
 
-      let placeLayer = getLayerById(state.map.olMap, 'placeLayer');
+      let placeLayer = getLayerById(olMap, 'placeLayer');
 
       let selectedFeature = placeLayer.getSource().getFeatures().filter(function(feature) {
 
@@ -38,11 +90,11 @@ export const changeSelectedPlace = (place) => {
 
       selectedFeature = selectedFeature[0];
 
-      popup.getElement().innerHTML = place.name;
+      olMap.selectSingleClick.getFeatures().clear();
 
-      popup.setPosition(selectedFeature.getGeometry().getFirstCoordinate());
+      olMap.selectSingleClick.getFeatures().push(selectedFeature);
 
-      state.map.olMap.getView().setZoom(state.map.defaultZoom || 4);
+      showOlPopup(olMap, defaultZoom, olPopup, selectedFeature);
 
       return dispatch(selectPlace(place));
     };
@@ -51,6 +103,7 @@ export const changeSelectedPlace = (place) => {
   };
 };
 
+// update the reference to the openlayers map object
 const updateMapReference = (olMap) =>({
   type: constants.UPDATE_MAP_REFERENCE,
   olMap
@@ -66,6 +119,7 @@ const shouldUpdateMapReference = (state, olMap) => {
   return !state.olMap;
 };
 
+// updates the ol map object if it not exist
 export const updateMapReferenceIfNeeded = (olMap) => {
 
   return (dispatch, getState) => {
@@ -78,6 +132,10 @@ export const updateMapReferenceIfNeeded = (olMap) => {
   };
 };
 
+/* Receives the event postrender from the openlayers map and with the map
+* features create the list of places used in the menu component.
+* In the end returns the dispatch of action updatePlaces.
+*/
 export const updatePlacesList = (event) => {
 
   return (dispatch, getState) => {
@@ -100,6 +158,7 @@ export const updatePlacesList = (event) => {
   };
 };
 
+//Creates a place list from a feature list(from placeLayer)
 const getPlacesFromLayer = (placeLayer) => {
   const source = placeLayer.getSource();
 
@@ -115,6 +174,7 @@ const getPlacesFromLayer = (placeLayer) => {
   return places;
 };
 
+// Receives an olMap reference and the layer id and return the layer object
 const getLayerById = (olMap,layerId) => {
   let layer;
   olMap
@@ -133,6 +193,7 @@ const updatePopupReference = (olPopup) =>({
   olPopup
 });
 
+// updates the map popup reference if it not exist
 export const updatePopupReferenceIfNeeded = (olPopup) => {
 
   return (dispatch, getState) => {

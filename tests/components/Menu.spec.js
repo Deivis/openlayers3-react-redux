@@ -18,7 +18,7 @@ const setup = () => {
   const props = {
     selected: {},
     places: places,
-    selectPlace: (index) => { return  places[index]; }
+    selectPlace: () => { return  places[0]; }
   };
 
   let renderer = TestUtils.createRenderer();

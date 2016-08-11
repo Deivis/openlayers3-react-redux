@@ -70,15 +70,22 @@ body {
 }
 .ol-popup-closer:after {
   content: "✖";
+  cursor: pointer;
 }
 
 /** MENU CSS **/
-li:hover {
-  background-color: yellow;
+.menu {
+  max-height: 420px;
+  overflow-y: scroll;
 }
-li.selected {
+
+.menu li:hover {
+  background-color: yellow;
+  cursor: pointer;
+}
+.menu li.selected {
   background-color: orange;
 }
-li, li label {
+.menu li,.menu li label {
   cursor: pointer;
 }

@@ -12,6 +12,7 @@ class Map extends Component{
 
   shouldComponentUpdate() {
 
+    // force the component to not update bacause the ol will do the map changes
     return false;
   }
 
@@ -50,8 +51,32 @@ class Map extends Component{
       }
     });
 
+    // create a new interaction for ol map
+    const selectSingleClick = new ol.interaction.Select();
+
     map.addOverlay(popup);
 
+    map.addInteraction(selectSingleClick);
+
+    // add the selectFeature function in the single click  interaction
+    selectSingleClick.on('select', this.props.selectFeature);
+
+    // add a reference for the single click interaction in the map object
+    map.selectSingleClick = selectSingleClick;
+
+    /* Get the element which will close the popup and add an event listener
+    *  because the openlayers create a new element based on the popup created in the
+    * component and destroy the component popup
+    */
+    let closer = this.refs.closer;
+
+    /* add the unselectPlace as listener of the click in the closer element
+    * this is required because ol change the references of the popup element and
+    * it children
+    */
+    closer.addEventListener('click', this.props.unselectPlace);
+
+    // this listener feeds the menu places list with the map features
     map.on('postrender', this.props.updatePlacesList);
 
     this.props.updatePopupReferenceIfNeeded(popup);
@@ -62,7 +87,10 @@ class Map extends Component{
   render(){
     return(
       <div>
-        <span id="popup" className="ol-popup" ref="popup"></span>
+        <div id="popup" className="ol-popup" ref="popup">
+          <span className="ol-popup-closer" ref="closer"></span>
+          <div id="innerPopup"></div>
+        </div>
         <div id="map" className="map"></div>
       </div>
     );
@@ -71,10 +99,11 @@ class Map extends Component{
 
 Map.propTypes = {
   olMap: PropTypes.object,
-  selectPlace: PropTypes.func,
+  selectFeature: PropTypes.func,
   updateMapReferenceIfNeeded: PropTypes.func,
   updatePlacesList: PropTypes.func,
-  updatePopupReferenceIfNeeded: PropTypes.func.isRequired
-}
+  updatePopupReferenceIfNeeded: PropTypes.func.isRequired,
+  unselectPlace: PropTypes.func.isRequired
+};
 
 export default Map;

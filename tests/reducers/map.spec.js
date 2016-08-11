@@ -1,48 +1,40 @@
 import map from '../../public/reducers/map';
 
-import { SELECT_PLACE, CHANGE_PLACES_VISIBILITY } from '../../public/constants';
+import { UPDATE_MAP_REFERENCE, UPDATE_POPUP_REFERENCE } from '../../public/constants';
 
 const setup = () => {
-  const places = [{
-                    properties:{
-                      name: "Lab for Spatial Informatics",
-                      time: "2011-08-22"
-                    },
-                    geometry: {
-                      type: "Point",
-                      coordinates: [ 78.3503, 17.4454 ]
-                    }
-                  }];
-
   const initialState = {
-    map: null, // Ol map reference
-    selectedIndex: null,
-    places: places
+    olMap: { getView: () =>({ getZoom: () => 0 }) },
+		defaultZoom: 0,
+    olPopup: null,
+    popupElement: null
   };
 
   return {
-    initialState,
-    places
+    initialState
   };
 };
 
 describe('Map reducer: ', () => {
-  const { initialState, places } = setup();
+  const { initialState } = setup();
 
-  //it('Should change the visibilite of the places', () =>{
-  // I don't now how i will do this
-  //});
 
-  it('Should change the selected place index ', () =>{
+  it('Should change the openlayers map reference ', () =>{
+
+    const olMap ={
+      getView: () => ({ getZoom: () => 1 })
+    }
+
     const expectedState = {
-      map: null,
-      selectedIndex: 0,
-      places: places
+      olMap: olMap,
+      defaultZoom: 1,
+      olPopup: null,
+      popupElement: null
     };
 
     const action = {
-      type: SELECT_PLACE,
-      featureIndex: 0
+      type: UPDATE_MAP_REFERENCE,
+      olMap: olMap
     };
 
     const state = map(initialState, action);
@@ -50,6 +42,30 @@ describe('Map reducer: ', () => {
     expect(state).not.toEqual(initialState);
 
     expect(state).toEqual(expectedState);
+  });
+
+  it('Should change the openlayers map popup reference ', () =>{
+    const olPopup = {};
+
+    const popupElement = {};
+
+    const expectedState = Object.assign({}, initialState,{
+      olPopup: olPopup,
+      popupElement: popupElement
+    });
+
+    const action = {
+      type: UPDATE_POPUP_REFERENCE,
+      olPopup,
+      popupElement
+    };
+
+    const state = map(initialState, action);
+
+    expect(state).not.toEqual(initialState);
+
+    expect(state).toEqual(expectedState);
+
   });
 
 });

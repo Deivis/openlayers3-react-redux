@@ -10,6 +10,13 @@ class Menu extends Component{
 
   }
 
+  componentDidUpdate(){
+    let selected = this.refs.selected;
+    if(selected){
+      selected.scrollIntoView();
+    }
+  }
+
   shouldComponentUpdate() {
 
     return true;
@@ -18,10 +25,11 @@ class Menu extends Component{
   renderPlace(selected, place, index){
     const className = selected !== null ? (selected.name === place.name ? 'selected' : '') : '';
     return(
-      <li key={index}
-          className={className}
+      <li key={ index }
+          className={ className }
+          ref={className}
           onClick={ this.props.selectPlace.bind(null, place) }>
-        <label>{place.name}</label>
+        <label>{ place.name }</label>
       </li>
     );
   }
@@ -29,7 +37,7 @@ class Menu extends Component{
   render(){
     const { places, selected} = this.props;
     return(
-      <ul id="menu">
+      <ul id="menu" ref="menu" className="menu">
         { places.map(this.renderPlace.bind(this,selected)) }
       </ul>
     );

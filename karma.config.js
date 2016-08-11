@@ -70,11 +70,11 @@ module.exports = function (config) {
     webpack: webpackConfig,
 
     webpackMiddleware: {
-      noInfo: true,
+      noInfo: false,
       stats: {
         colors: true
       },
-      quiet: false
+      quiet: true
     }
   });
 };

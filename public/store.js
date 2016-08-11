@@ -13,7 +13,7 @@ const defaultState = {
 	},
 	menu: {
 		places: [],
-		selected: null,
+		selected: null
 	}
 };
 

@@ -19,18 +19,21 @@ class Main extends Component {
             olMap,
             places,
             selected,
+            selectFeature,
             updateMapReferenceIfNeeded,
             updatePlacesList,
-            updatePopupReferenceIfNeeded
+            updatePopupReferenceIfNeeded,
+            unselectPlace
           } = props;
 
 		return(
 			<div>
 				<Map  olMap={olMap}
-              selectPlace={changeSelectedPlace}
+              selectFeature={selectFeature}
               updateMapReferenceIfNeeded={updateMapReferenceIfNeeded}
               updatePlacesList={updatePlacesList}
-              updatePopupReferenceIfNeeded={updatePopupReferenceIfNeeded}/>
+              updatePopupReferenceIfNeeded={updatePopupReferenceIfNeeded}
+              unselectPlace={unselectPlace}/>
 
         <Menu places={places}
               selected={selected}
@@ -45,9 +48,11 @@ Main.propTypes = {
   olMap: PropTypes.object,
   places: PropTypes.array.isRequired,
 	selected: PropTypes.object,
+  selectFeature: PropTypes.func.isRequired,
   updateMapReferenceIfNeeded: PropTypes.func.isRequired,
   updatePlacesList: PropTypes.func.isRequired,
-  updatePopupReferenceIfNeeded: PropTypes.func.isRequired
+  updatePopupReferenceIfNeeded: PropTypes.func.isRequired,
+  unselectPlace: PropTypes.func.isRequired
 };
 
 export default Main;

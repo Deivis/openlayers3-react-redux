@@ -10,9 +10,13 @@ import Menu from '../../public/components/Menu';
 
 const setup = () =>{
   const props = {
-    map: null,
-    selected: null,
-    places: null
+    changeSelectedPlace: () => { return true; },
+    olMap: {},
+    places: [],
+    selected: {},
+    updateMapReferenceIfNeeded: () => { return true; },
+    updatePlacesList: () => { return true; },
+    updatePopupReferenceIfNeeded: () => { return true; }
   };
 
   const renderer = TestUtils.createRenderer();
